@@ -44,15 +44,21 @@ func main() {
 		log.Fatal(err)
 	}
 
-	//sumDistances := partOne(left, right)
-	//fmt.Printf("%d\n", sumDistances)
+	sumDistances := partOne(left, right)
+	fmt.Printf("%d\n", sumDistances)
 
 	similarity := partTwo(left, right)
 	fmt.Printf("%d\n", similarity)
 }
 
-func partOne(left []int, right []int) int {
-	var distances []int
+func partOne(remoteLeft []int, remoteRight []int) int {
+	left := make([]int, len(remoteLeft))
+	right := make([]int, len(remoteRight))
+
+	copy(left, remoteLeft)
+	copy(right, remoteRight)
+
+	distance := 0
 	for _ = range len(left) {
 		leftSmallest, newLeft := getSmallestAndRemove(left)
 		rightSmallest, newRight := getSmallestAndRemove(right)
@@ -61,18 +67,13 @@ func partOne(left []int, right []int) int {
 		right = newRight
 
 		if leftSmallest > rightSmallest {
-			distances = append(distances, leftSmallest-rightSmallest)
+			distance += leftSmallest - rightSmallest
 		} else {
-			distances = append(distances, rightSmallest-leftSmallest)
+			distance += rightSmallest - leftSmallest
 		}
 	}
 
-	sumDistances := 0
-	for _, dist := range distances {
-		sumDistances += dist
-	}
-
-	return sumDistances
+	return distance
 }
 
 func getSmallestAndRemove(list []int) (int, []int) {
@@ -101,19 +102,14 @@ func swapRemove(s []int, i int) []int {
 }
 
 func partTwo(left []int, right []int) int {
-	var similarities []int
+	similarity := 0
 
 	for _, item := range left {
 		score := countOccurences(right, item)
-		similarities = append(similarities, item*score)
+		similarity += item * score
 	}
 
-	similarityTotal := 0
-	for _, sim := range similarities {
-		similarityTotal += sim
-	}
-
-	return similarityTotal
+	return similarity
 }
 
 func countOccurences(list []int, element int) int {
