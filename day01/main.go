@@ -44,8 +44,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	sumDistances := partOne(left, right)
-	fmt.Printf("%d\n", sumDistances)
+	//sumDistances := partOne(left, right)
+	//fmt.Printf("%d\n", sumDistances)
+
+	similarity := partTwo(left, right)
+	fmt.Printf("%d\n", similarity)
 }
 
 func partOne(left []int, right []int) int {
@@ -63,8 +66,6 @@ func partOne(left []int, right []int) int {
 			distances = append(distances, rightSmallest-leftSmallest)
 		}
 	}
-
-	fmt.Printf("%v\n", distances)
 
 	sumDistances := 0
 	for _, dist := range distances {
@@ -97,4 +98,30 @@ func getSmallestAndRemove(list []int) (int, []int) {
 func swapRemove(s []int, i int) []int {
 	s[i] = s[len(s)-1]
 	return s[:len(s)-1]
+}
+
+func partTwo(left []int, right []int) int {
+	var similarities []int
+
+	for _, item := range left {
+		score := countOccurences(right, item)
+		similarities = append(similarities, item*score)
+	}
+
+	similarityTotal := 0
+	for _, sim := range similarities {
+		similarityTotal += sim
+	}
+
+	return similarityTotal
+}
+
+func countOccurences(list []int, element int) int {
+	count := 0
+	for _, item := range list {
+		if item == element {
+			count += 1
+		}
+	}
+	return count
 }
