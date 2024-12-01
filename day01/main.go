@@ -104,20 +104,15 @@ func swapRemove(s []int, i int) []int {
 func partTwo(left []int, right []int) int {
 	similarity := 0
 
+	var occurences = make(map[int]int)
+
+	for _, item := range right {
+		occurences[item] += 1
+	}
+
 	for _, item := range left {
-		score := countOccurences(right, item)
-		similarity += item * score
+		similarity += item * occurences[item]
 	}
 
 	return similarity
-}
-
-func countOccurences(list []int, element int) int {
-	count := 0
-	for _, item := range list {
-		if item == element {
-			count += 1
-		}
-	}
-	return count
 }
