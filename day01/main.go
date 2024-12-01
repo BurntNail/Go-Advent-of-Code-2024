@@ -59,7 +59,7 @@ func partOne(remoteLeft []int, remoteRight []int) int {
 	copy(right, remoteRight)
 
 	distance := 0
-	for _ = range len(left) {
+	for range len(left) {
 		leftSmallest, newLeft := getSmallestAndRemove(left)
 		rightSmallest, newRight := getSmallestAndRemove(right)
 
