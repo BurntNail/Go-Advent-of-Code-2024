@@ -16,8 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer func(f *os.File) {
-		err := f.Close()
-		if err != nil {
+		if err := f.Close(); err != nil {
 			log.Fatal(err)
 		}
 	}(f)
